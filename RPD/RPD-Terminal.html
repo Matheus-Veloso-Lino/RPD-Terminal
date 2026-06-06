@@ -1,0 +1,350 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Old Computer Layout</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: "Courier New", monospace;
+    }
+
+    body {
+      box-shadow: 0 0 4px #4bffe1be, 0 0 8px #4bffe1be;
+      text-shadow: 0 0 4px #4bffe1be, 0 0 8px #4bffe1be;
+      background: #222222;
+      color: #4bffe1be;
+      height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      overflow: hidden;
+    }
+
+    body::before {
+      content: "";
+      position: fixed;
+      inset: 0;
+
+      background: repeating-linear-gradient(
+        to bottom,
+        rgba(255, 255, 255, 0.03),
+        rgba(255, 255, 255, 0.03) 1px,
+        transparent 2px,
+        transparent 4px
+      );
+
+      pointer-events: none;
+      z-index: 0 ;
+    }
+
+    body::after {
+    content: "";
+
+    position: fixed;
+    inset: 0;
+
+    background: rgba(255,255,255,0.02);
+
+    animation: flicker 0.15s infinite;
+
+    pointer-events: none;
+}
+@keyframes flicker {
+
+    0% { opacity: 0.08; }
+    50% { opacity: 0.03; }
+    100% { opacity: 0.08; }
+
+}
+
+
+    .monitor {
+      width: 75vw;
+      height: 45vw;
+      background: #0a0a0a73;
+      border: 12px solid #9287876b;
+      border-radius: 12px;
+      box-shadow: 0 0 25px rgba(0, 0, 0, 0.25);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .screen {
+      width: 100%;
+      height: 100%;
+      padding: 20px;
+      position: relative;
+      background: radial-gradient(circle at center, #0f99826e 0%, #72c4b952 100%);
+    }
+
+    .scanlines::before {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background: repeating-linear-gradient(
+        to bottom,
+        rgba(255,255,255,0.03),
+        rgba(255,255,255,0.03) 1px,
+        transparent 2px,
+        transparent 4px
+      );
+      pointer-events: none;
+    }
+
+    .topbar {
+      display: flex;
+      justify-content: space-between;
+      margin-bottom: 20px;
+      border-bottom: 1px solid #ffffff;
+      padding-bottom: 10px;
+    }
+
+    .window {
+      margin-top: 20px;
+      border: 2px solid #ffffff;
+      padding: 15px;
+      margin-bottom: 20px;
+      background: rgba(0, 0, 0, 0.4);
+    }
+
+    .window-title {
+      margin-bottom: 10px;
+      color: #ffffff;
+    }
+
+    .icon {
+      width: 25px;
+      height: 25px;
+      vertical-align: middle;
+      margin-left: 5px;
+    }
+
+    .command-line {
+      display: flex;
+      gap: 8px;
+      margin-top: 10px;
+    }
+
+    input {
+      flex: 1;
+      background: black;
+      border: 1px solid #ffffff;
+      color: #ffffff;
+      padding: 8px;
+      outline: none;
+    }
+
+    button {
+      background: #15b615;
+      border: 1px solid #ffffff;
+      color: #ffffff;
+      padding: 8px 14px;
+      cursor: pointer;
+    }
+
+    button:hover {
+      background: #ffffff49;
+    }
+
+    .status-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 15px;
+    }
+
+    .pc-title {
+      color: #ffffffc0;
+    }
+
+    .status-box {
+      border: 1px dashed #fcfcfc;
+      padding: 12px;
+      min-height: 100px;
+    }
+
+    .network-title {
+      color: #ffffffc0;
+    }
+
+    .blinking {
+      animation: blink 1s infinite;
+    }
+
+    @keyframes blink {
+      50% {
+        opacity: 0;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="monitor">
+    <div class="screen scanlines">
+
+      <div class="topbar">
+        <span>RACCON POLICE DEPARTMENT</span>
+        <span>ONLINE | <span id="clock">00:00:00</span></span>
+      </div>
+
+      <div class="window">
+        <div class="window-title"> [ AUTHENTICATED USER
+        <img src="imgs/stars-icon.png" alt="S.T.A.R.S" class="icon" />
+        ]</div>
+        <p>> Boot sequence completed<span class="dots"></span></p>
+        <p>> Network connection stable<span class="dots"></span></p>
+        <p>> S.T.A.R.S. member initialized<span class="dots"></span></p>
+        <p>> Awaiting modules<span class="blinking">_</span></p>
+      </div>
+
+      <div class="status-grid">
+        <div class="status-box">
+          <strong class="pc-title">[ AUDIO STATUS ]</strong>
+          <p id="audioSignal">SIGNAL: STANDBY</p>
+          <p id="audioLevel">LEVEL: 0%</p>
+          <p id="audioBass">BASS: LOW</p>
+        </div>
+
+        <div class="status-box">
+          <strong class="network-title">[ NETWORK ]</strong>
+          <p>Signal: Stable</p>
+          <p id="packetsReceived">Packets Received: 12,882</p>
+          <p id="packetsLost">Packets Lost: 2</p>
+        </div>
+      </div>
+
+      <div class="window">
+        <div class="window-title">[ COMMAND ]</div>
+
+        <div id="waiting">
+           Loading modules
+          <span class="dots"></span></div>
+      </div>
+
+    </div>
+  </div>
+  
+  <script> 
+    function updateClock() {
+      const clock = document.getElementById("clock");
+      const now = new Date();
+      const hours = String(now.getHours()).padStart(2, "0");
+      const minutes = String(now.getMinutes()).padStart(2, "0");
+      const seconds = String(now.getSeconds()).padStart(2, "0");
+      clock.textContent = `${hours}:${minutes}:${seconds}`;
+    }
+
+    setInterval(updateClock, 1000);
+    updateClock();
+
+    let packetsReceived = 12882;
+let packetsLost = 2;
+
+setInterval(() => {
+
+    packetsReceived +=
+        Math.floor(Math.random() * 20);
+
+    if(Math.random() > 0.95)
+    {
+        packetsLost += 1;
+    }
+
+    document.getElementById("packetsReceived").textContent =
+        `Packets Received: ${packetsReceived.toLocaleString()}`;
+
+    document.getElementById("packetsLost").textContent =
+        `Packets Lost: ${packetsLost}`;
+
+}, 1000);
+
+let dots = 0;
+
+setInterval(() => {
+
+    dots = (dots + 1) % 4;
+
+    const value = ".".repeat(dots);
+
+    document.querySelectorAll(".dots")
+        .forEach(element => {
+            element.textContent = value;
+        });
+
+}, 500);
+
+function generateBar(percent)
+{
+    const total = 16;
+
+    const filled =
+        Math.round((percent / 100) * total);
+
+    return "█".repeat(filled)
+         + "░".repeat(total - filled);
+}
+
+function wallpaperAudioListener(audioArray)
+{
+    let average = 0;
+
+    for(let i = 0; i < audioArray.length; i++)
+    {
+        average += Math.min(audioArray[i], 1);
+    }
+
+    average /= audioArray.length;
+
+    const level =
+        Math.round(average * 100);
+
+    const bar =
+        generateBar(level);
+
+    document.getElementById("audioLevel").textContent =
+        `LEVEL: ${bar} ${level}%`;
+}
+
+window.wallpaperRegisterAudioListener(
+    wallpaperAudioListener
+);
+
+
+window.wallpaperRegisterAudioListener(
+    wallpaperAudioListener
+);
+
+
+let bass = 0;
+
+for(let i = 0; i < 10; i++)
+{
+    bass += audioArray[i];
+}
+
+bass /= 10;
+
+if(bass > 0.30)
+{
+    document.getElementById("audioBass").textContent =
+        "BASS: HIGH";
+}
+else if(bass > 0.10)
+{
+    document.getElementById("audioBass").textContent =
+        "BASS: MEDIUM";
+}
+else
+{
+    document.getElementById("audioBass").textContent =
+        "BASS: LOW";
+}
+</script>
+
+
+
+</body>
+</html>
