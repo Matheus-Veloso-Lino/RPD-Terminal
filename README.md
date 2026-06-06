@@ -6,8 +6,8 @@ This project was generated using CSS, HTML and JavaScrip for Wallpaper Engine.
 - Simple Animations
 
 ##The wallpaper
-<p align="center>
-  <img src="https://github.com/user-attachments/assets/4cd0f3a8-8840-4809-8d50-27e7e50a97f8" width="300">
+<p align="center">
+  <img width="1917" height="1025" alt="IMG-1" src="https://github.com/user-attachments/assets/5c51f485-6c40-4db6-8d82-a67f6f93eeb0">
 </p>
 
 
