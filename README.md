@@ -11,6 +11,8 @@ This project was generated using CSS, HTML and JavaScrip for Wallpaper Engine.
   <img width="1422" height="845" alt="RPD-TERMINAL" src="https://github.com/user-attachments/assets/8d7dbc06-b0ec-4834-9826-018a34c50996" />
 </p>
 
+## Link to the Wallpaper
+https://steamcommunity.com/sharedfiles/filedetails/?id=3739944456
 
 
 
